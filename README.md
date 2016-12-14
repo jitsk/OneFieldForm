@@ -12,7 +12,7 @@ Use this in xml file
                 android:layout_height="wrap_content"
                 android:backgroundColor="@android:color/black"
                 android:borderColor="@android:color/white"
-                textColor="@android:color/white"
+                android:textColor="@android:color/white"
                 android:minHeight="80dp"
                 android:minWidth="250dp" />
 ```
@@ -54,6 +54,11 @@ formBox.setFormBoxListener(new FormBox.FormBoxListener() {
         });
         
   ```
+#Limitations
+1. Currently color of inner circle cannot be changed in name and email fields.
+2. Input is limited to 24 characters.
+
+
 #Known Bugs
 1. Thickness of border increases during animation.
 
