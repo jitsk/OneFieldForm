@@ -54,6 +54,14 @@ formBox.setFormBoxListener(new FormBox.FormBoxListener() {
         });
         
   ```
+#Regular Expressions Used for Validations
+```
+    USERNAME_PATTERN = "^[a-zA-Z0-9_-]{3,100}$"
+    PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,100})"
+    EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+
+```
+
 #Limitations
 1. Currently color of inner circle cannot be changed in name and email fields.
 2. Input is limited to 24 characters.
