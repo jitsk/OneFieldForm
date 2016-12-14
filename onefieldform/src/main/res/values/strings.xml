@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Onefieldform</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="welcome">Welcome</string>
+    <string name="signup">SIGN UP</string>
+</resources>

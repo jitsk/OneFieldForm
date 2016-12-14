@@ -1,0 +1,437 @@
+package com.android.onefieldform;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.res.ResourcesCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.AttributeSet;
+import android.view.Gravity;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+/**
+ * Framebox class to create the framebox
+ * @author jithin
+ * @version 1.0
+ */
+
+public class FormBox extends FrameLayout {
+
+
+    private EditText nameEditText;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+
+    private View nextButton;
+    private Button signupButton;
+    private View nameInput;
+    private View emailInput;
+    private View passwordInput;
+    private View welcome;
+    private TextView textViewName;
+    private TextView textViewMail;
+    private TextView textViewPass;
+    private TextView welcomeTextView;
+    private FormBoxListener formBoxListener;
+    private View signupView;
+    private int backGroundColor;
+    private int borderColor;
+    private int textColor;
+
+
+    public interface FormBoxListener {
+        void OnInitiated();
+
+        void onNameEntered(String name);
+
+        void onEmailEntered(String email);
+
+        void onPasswordEntered(String password);
+
+        void onNameError();
+
+        void onEmailError();
+
+        void onPasswordError();
+    }
+
+    public void setFormBoxListener(FormBoxListener formBoxListener) {
+        this.formBoxListener = formBoxListener;
+    }
+
+    public FormBox(Context context) {
+        super(context);
+        initAttributes(context, null);
+        init();
+    }
+
+    public FormBox(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initAttributes(context, attrs);
+        init();
+    }
+
+    public FormBox(Context context, int backGroundColor, int borderColor, int textColor) {
+        super(context);
+        this.backGroundColor = backGroundColor; this.borderColor = borderColor; this.textColor = textColor;
+        init();
+    }
+
+    private void initAttributes(Context context, AttributeSet attrs) {
+        if(attrs == null) {
+            initDefault();
+            return;
+        }
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FormField);
+        final int N = a.getIndexCount();
+        if(N == 0) {
+            initDefault();
+            return;
+        }
+        for (int i = 0; i < N; ++i) {
+            int attr = a.getIndex(i);
+            if (attr == R.styleable.FormField_backgroundColor) {
+                backGroundColor = a.getColor(attr, ResourcesCompat.getColor(getResources(), R.color.color_black, null));
+            } else if (attr == R.styleable.FormField_borderColor) {
+                borderColor = a.getColor(attr, ResourcesCompat.getColor(getResources(), R.color.color_clouds, null));
+            } else if (attr == R.styleable.FormField_textColor) {
+                textColor = a.getColor(attr, ResourcesCompat.getColor(getResources(), R.color.color_clouds, null));
+            }
+        }
+        a.recycle();
+    }
+
+    private void initDefault() {
+        backGroundColor = ResourcesCompat.getColor(getResources(), R.color.color_black, null);
+        borderColor = ResourcesCompat.getColor(getResources(), R.color.color_clouds, null);
+        textColor = ResourcesCompat.getColor(getResources(), R.color.color_clouds, null);
+    }
+
+    private void createAndSetDrawable(int stroke) {
+        GradientDrawable gradientDrawable = new GradientDrawable();
+        gradientDrawable.setCornerRadius(getResources().getDimension(R.dimen.radius));
+        gradientDrawable.setColor(backGroundColor);
+        gradientDrawable.setStroke(stroke, borderColor);
+        this.setBackground(gradientDrawable);
+    }
+
+    private void init() {
+        formBoxListener = null;
+        createAndSetDrawable((int) getResources().getDimension(R.dimen.stroke));
+        signupView = inflate(getContext(),R.layout.signup,null);
+        setAndAddView(signupView);
+        signupButton = (Button) signupView.findViewById(R.id.sign_up);
+        signupButton.setTextColor(textColor);
+        signupButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initNameItem();
+            }
+        });
+    }
+
+
+    private void initNameItem() {
+        this.formBoxListener.OnInitiated();
+        nameInput = inflate(getContext(),R.layout.nameitem,null);
+        setAndAddView(nameInput);
+        CircleImageView circleImage = (CircleImageView) this.findViewById(R.id.circle_image_name);
+        circleImage.setVisibility(View.INVISIBLE);
+        textViewName = (TextView) this.findViewById(R.id.name_text);
+        textViewName.setTextColor(textColor);
+        nextButton = this.findViewById(R.id.name_next);
+        nameEditText = (EditText)this.findViewById(R.id.editText_name);
+        nameEditText.setTextColor(textColor);
+        addTextWatcher(nameEditText);
+        nextButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scaleButtonView(nextButton);
+                postDelayed(new Runnable()
+                {
+                    public void run()
+                    {
+                        if(validateName()) {
+                            initEmailItem();
+                        } else {
+                            formBoxListener.onNameError();
+                            shakeAnime();
+                        }
+                    }
+                }, 300);
+            }
+        });
+        crossfade(signupView, nameInput);
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                animateStart();
+            }
+        },200);
+    }
+
+    private void initEmailItem() {
+        this.formBoxListener.onNameEntered(nameEditText.getText().toString());
+        final FrameLayout frameLayout = this;
+        emailInput = inflate(getContext(),R.layout.emailitem,null);
+        setAndAddView(emailInput);
+        nextButton = frameLayout.findViewById(R.id.email_next);
+        emailEditText = (EditText)frameLayout.findViewById(R.id.editText_email);
+        textViewMail = (TextView) frameLayout.findViewById(R.id.mail_text);
+        textViewMail.setTextColor(textColor);
+        emailEditText.setTextColor(textColor);
+        addTextWatcher(emailEditText);
+        nextButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scaleButtonView(nextButton);
+                postDelayed(new Runnable()
+                {
+                    public void run()
+                    {
+                        if(validateMail()) {
+                            initPasswordItem();
+                        } else {
+                            formBoxListener.onEmailError();
+                            shakeAnime();
+                        }
+                    }
+                }, 300);
+            }
+        });
+        emailEditText.setText(nameEditText.getText().toString());
+        textViewName.setVisibility(View.INVISIBLE);
+        nameEditText.setVisibility(View.INVISIBLE);
+        textViewMail.setVisibility(View.INVISIBLE);
+        emailEditText.setVisibility(View.INVISIBLE);
+        nextButton.setVisibility(View.INVISIBLE);
+        findViewById(R.id.frameLayout_name).setVisibility(View.INVISIBLE);
+        findViewById(R.id.name_next).setVisibility(View.INVISIBLE);
+        transAnime(R.id.circle_image_name,nameEditText.getWidth());
+        postDelayed(new Runnable()
+        {
+            public void run()
+            {
+                frameLayout.removeView(nameInput);
+                emailEditText.setText("");
+                emailEditText.setVisibility(View.VISIBLE);
+                textViewMail.setVisibility(View.VISIBLE);
+                nextButton.setVisibility(View.VISIBLE);
+            }
+        }, 320);
+    }
+
+
+    private void initPasswordItem() {
+        this.formBoxListener.onEmailEntered(emailEditText.getText().toString());
+        passwordInput = inflate(getContext(),R.layout.passworditem,null);
+        setAndAddView(passwordInput);
+        textViewPass = (TextView) this.findViewById(R.id.password_text);
+        nextButton = this.findViewById(R.id.password_next);
+        passwordEditText = (EditText)this.findViewById(R.id.editText_password);
+        textViewPass.setTextColor(textColor);
+        passwordEditText.setTextColor(textColor);
+        final FrameLayout frameLayout = this;
+        addTextWatcher(passwordEditText);
+        nextButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scaleButtonView(nextButton);
+                postDelayed(new Runnable()
+                {
+                    public void run()
+                    {
+                        if(validatePassword()) {
+                            welcome();
+                        } else {
+                            formBoxListener.onPasswordError();
+                            shakeAnime();
+                        }
+                    }
+                }, 300);
+            }
+        });
+        passwordEditText.setText(emailEditText.getText().toString());
+        textViewMail.setVisibility(View.INVISIBLE);
+        emailEditText.setVisibility(View.INVISIBLE);
+        textViewPass.setVisibility(View.INVISIBLE);
+        nextButton.setVisibility(View.INVISIBLE);
+        passwordEditText.setVisibility(View.INVISIBLE);
+        findViewById(R.id.email_next).setVisibility(INVISIBLE);
+        findViewById(R.id.frameLayout_email).setVisibility(INVISIBLE);
+        transAnime(R.id.circle_image_email, emailEditText.getWidth());
+        postDelayed(new Runnable()
+        {
+            public void run()
+            {
+                frameLayout.removeView(emailInput);
+                passwordEditText.setText("");
+                nextButton.setVisibility(VISIBLE);
+                passwordEditText.setVisibility(View.VISIBLE);
+                textViewPass.setVisibility(View.VISIBLE);
+            }
+        }, 320);
+
+    }
+
+    private void welcome() {
+        this.formBoxListener.onPasswordEntered(passwordEditText.getText().toString());
+        welcome = inflate(getContext(),R.layout.welcome,null);
+        setAndAddView(welcome);
+        final FrameLayout fl = this;
+        textViewPass.setVisibility(View.INVISIBLE);
+        passwordEditText.setVisibility(View.INVISIBLE);
+        welcome.setVisibility(View.INVISIBLE);
+        welcomeTextView = (TextView) this.findViewById(R.id.welcome_text);
+        welcomeTextView.setTextColor(textColor);
+        nextButton.setVisibility(View.INVISIBLE);
+        transAnime(R.id.circle_image_password, passwordEditText.getWidth());
+        postDelayed(new Runnable()
+        {
+            public void run()
+            {
+                welcome.setVisibility(View.VISIBLE);
+                crossfade(passwordInput, welcome);
+                fl.removeView(passwordInput);
+            }
+        }, 320);
+        postDelayed(new Runnable()
+        {
+            public void run()
+            {
+                    ValueAnimator animation = ValueAnimator.ofFloat(getResources().getDimension(R.dimen.stroke),getResources().getDimension(R.dimen.stroke_zero));
+                    animation.setDuration(500);
+                    animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float ds = (float) animation.getAnimatedValue();
+                        createAndSetDrawable((int) ds);
+                    }
+                });
+                animation.start();
+            }
+        }, 400);
+    }
+
+    private boolean validateName() {
+        return nameEditText.getText().toString().matches(Constants.USERNAME_PATTERN);
+    }
+
+    private boolean validateMail() {
+        return emailEditText.getText().toString().matches(Constants.EMAIL_PATTERN);
+    }
+
+    private boolean validatePassword() {
+        return passwordEditText.getText().toString().matches(Constants.PASSWORD_PATTERN);
+    }
+
+    private void crossfade(final View view1, View view2) {
+
+        view2.setAlpha(0f);
+        view2.animate()
+                .alpha(1f)
+                .setDuration(400)
+                .setListener(null);
+
+        view1.animate()
+                .alpha(0f)
+                .setDuration(400)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        view1.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+    private void scaleButtonView(View v) {
+        final Animation animScale = AnimationUtils.loadAnimation(getContext(), R.anim.scale);
+        v.startAnimation(animScale);
+    }
+
+
+    private FrameLayout.LayoutParams getParams() {
+        return new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+    }
+
+    private int getGravity() {
+        return Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL;
+    }
+
+    private void setAndAddView(View view) {
+        FrameLayout.LayoutParams params = getParams();
+        params.gravity = getGravity();
+        view.setLayoutParams(params);
+        this.addView(view);
+    }
+
+    private void addTextWatcher(EditText editText) {
+        final FrameLayout frameLayout = this;
+        final Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(i2 > 16) {
+                    nextButton.startAnimation(animation);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                frameLayout.clearAnimation();
+            }
+        });
+    }
+
+    private void shakeAnime() {
+        final FrameLayout frameLayout = this;
+        final Animation animShake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+        frameLayout.startAnimation(animShake);
+    }
+
+    private void animateStart() {
+        final Animation animSequence = AnimationUtils.loadAnimation(getContext(), R.anim.seq1);
+        final CircleImageView circleImage = (CircleImageView) this.findViewById(R.id.circle_image_name);
+        circleImage.setVisibility(View.VISIBLE);
+        circleImage.startAnimation(animSequence);
+    }
+
+    private void transAnime(int id, int width) {
+        final CircleImageView circleImage = (CircleImageView) this.findViewById(id);
+        circleImage.animate().
+                translationXBy(width + 185).
+                setDuration(300).
+                setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+            }
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+            }
+        }).
+                start();
+    }
+
+
+}
