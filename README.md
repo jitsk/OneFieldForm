@@ -10,6 +10,9 @@ Use this in xml file
                 android:id="@+id/formbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundColor="@android:color/black"
+                android:borderColor="@android:color/white"
+                textColor="@android:color/white"
                 android:minHeight="80dp"
                 android:minWidth="250dp" />
 ```
