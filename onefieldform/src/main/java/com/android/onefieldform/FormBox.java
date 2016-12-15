@@ -19,6 +19,19 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.android.onefieldform.Events.EmailError;
+import com.android.onefieldform.Events.EmailReceived;
+import com.android.onefieldform.Events.EmailVerified;
+import com.android.onefieldform.Events.NameError;
+import com.android.onefieldform.Events.NameReceived;
+import com.android.onefieldform.Events.NameVerified;
+import com.android.onefieldform.Events.PasswordError;
+import com.android.onefieldform.Events.PasswordReceived;
+import com.android.onefieldform.Events.PasswordVerified;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -44,32 +57,11 @@ public class FormBox extends FrameLayout {
     private TextView textViewMail;
     private TextView textViewPass;
     private TextView welcomeTextView;
-    private FormBoxListener formBoxListener;
     private View signupView;
     private int backGroundColor;
     private int borderColor;
     private int textColor;
 
-
-    public interface FormBoxListener {
-        void OnInitiated();
-
-        void onNameEntered(String name);
-
-        void onEmailEntered(String email);
-
-        void onPasswordEntered(String password);
-
-        void onNameError();
-
-        void onEmailError();
-
-        void onPasswordError();
-    }
-
-    public void setFormBoxListener(FormBoxListener formBoxListener) {
-        this.formBoxListener = formBoxListener;
-    }
 
     public FormBox(Context context) {
         super(context);
@@ -128,7 +120,7 @@ public class FormBox extends FrameLayout {
     }
 
     private void init() {
-        formBoxListener = null;
+        EventBus.getDefault().register(this);
         createAndSetDrawable((int) getResources().getDimension(R.dimen.stroke));
         signupView = inflate(getContext(),R.layout.signup,null);
         setAndAddView(signupView);
@@ -144,7 +136,6 @@ public class FormBox extends FrameLayout {
 
 
     private void initNameItem() {
-        this.formBoxListener.OnInitiated();
         nameInput = inflate(getContext(),R.layout.nameitem,null);
         setAndAddView(nameInput);
         CircleImageView circleImage = (CircleImageView) this.findViewById(R.id.circle_image_name);
@@ -164,9 +155,9 @@ public class FormBox extends FrameLayout {
                     public void run()
                     {
                         if(validateName()) {
-                            initEmailItem();
+                            EventBus.getDefault().post(new NameReceived(nameEditText.getText().toString()));
                         } else {
-                            formBoxListener.onNameError();
+                            EventBus.getDefault().post(new NameError());
                             shakeAnime();
                         }
                     }
@@ -182,8 +173,12 @@ public class FormBox extends FrameLayout {
         },200);
     }
 
+    @Subscribe
+    public void onNameVerified(NameVerified nameVerified) {
+        initEmailItem();
+    }
+
     private void initEmailItem() {
-        this.formBoxListener.onNameEntered(nameEditText.getText().toString());
         final FrameLayout frameLayout = this;
         emailInput = inflate(getContext(),R.layout.emailitem,null);
         setAndAddView(emailInput);
@@ -202,9 +197,9 @@ public class FormBox extends FrameLayout {
                     public void run()
                     {
                         if(validateMail()) {
-                            initPasswordItem();
+                            EventBus.getDefault().post(new EmailReceived(emailEditText.getText().toString()));
                         } else {
-                            formBoxListener.onEmailError();
+                            EventBus.getDefault().post(new EmailError());
                             shakeAnime();
                         }
                     }
@@ -233,9 +228,12 @@ public class FormBox extends FrameLayout {
         }, 320);
     }
 
+    @Subscribe
+    public void onEmailVerified(EmailVerified emailVerified) {
+        initPasswordItem();
+    }
 
     private void initPasswordItem() {
-        this.formBoxListener.onEmailEntered(emailEditText.getText().toString());
         passwordInput = inflate(getContext(),R.layout.passworditem,null);
         setAndAddView(passwordInput);
         textViewPass = (TextView) this.findViewById(R.id.password_text);
@@ -254,9 +252,9 @@ public class FormBox extends FrameLayout {
                     public void run()
                     {
                         if(validatePassword()) {
-                            welcome();
+                            EventBus.getDefault().post(new PasswordReceived(passwordEditText.getText().toString()));
                         } else {
-                            formBoxListener.onPasswordError();
+                            EventBus.getDefault().post(new PasswordError());
                             shakeAnime();
                         }
                     }
@@ -286,8 +284,12 @@ public class FormBox extends FrameLayout {
 
     }
 
+    @Subscribe
+    public void onPasswordVerified(PasswordVerified passwordVerified) {
+        welcome();
+    }
+
     private void welcome() {
-        this.formBoxListener.onPasswordEntered(passwordEditText.getText().toString());
         welcome = inflate(getContext(),R.layout.welcome,null);
         setAndAddView(welcome);
         final FrameLayout fl = this;

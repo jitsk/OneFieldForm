@@ -1,4 +1,54 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+            }
+
+            pom.project {
+                name 'onefieldform'
+                packaging 'aar'
+                description 'One field form library'
+                url 'https://github.com/jitsk/OneFieldForm'
+
+                scm {
+                    connection 'scm:git:git@github.com:jitsk/OneFieldForm.git'
+                    developerConnection 'scm:git:git@github.com:jitsk/OneFieldForm.git'
+                    url 'git@github.com:jitsk/OneFieldForm.git'
+                }
+
+                licenses {
+                    license {
+                        name 'Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0'
+                    }
+                }
+
+                developers {
+                    developer {
+                        name 'Jithin Sebastian'
+                        email 'jithinliveshere@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+}
 
 android {
     compileSdkVersion 25
@@ -23,10 +73,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    testCompile 'junit:junit:4.12'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
