@@ -2,7 +2,7 @@
 This is One field form for android. Can be used to sign up the user using name, email and password.
 #Including in project
 
-#In build.fragle
+#In build.gradle
 ```
 repositories {
     mavenCentral()
