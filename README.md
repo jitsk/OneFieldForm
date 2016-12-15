@@ -2,6 +2,19 @@
 This is One field form for android. Can be used to sign up the user using name, email and password.
 #Including in project
 
+#In build.fragle
+```
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.github.jitsk:onefieldform:0.0.1'
+}
+
+
+```
+
 #Via xml
 
 Use this in xml file
