@@ -10,6 +10,7 @@ repositories {
 
 dependencies {
     compile 'com.github.jitsk:onefieldform:0.0.1'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
 
 
@@ -35,36 +36,43 @@ Use this in xml file
 FormBox formbox = new FormBox(Context context, int backGroundColor, int borderColor, int textColor);
 ```
 #Listening to events
+
+Uses eventbus to listen to events. Refer to <a href="https://github.com/greenrobot/EventBus">EventBus</a> for more.
+
+In main activity,
 ```
-formBox.setFormBoxListener(new FormBox.FormBoxListener() {
-            @Override
-            public void OnInitiated() {
-            }
+    @Subscribe
+    public void onNameReceived(NameReceived nameReceived) {
+        //process name
+        EventBus.getDefault().post(new NameVerified());
+    }
 
-            @Override
-            public void onNameEntered(String name) {
-            }
+    @Subscribe
+    public void onEmailReceived(EmailReceived emailReceived) {
+        //process email
+        EventBus.getDefault().post(new EmailVerified());
+    }
 
-            @Override
-            public void onEmailEntered(String email) {
-            }
+    @Subscribe
+    public void onPasswordReceived(PasswordReceived passwordReceived) {
+        //process passsword
+        EventBus.getDefault().post(new PasswordVerified());
+    }
 
-            @Override
-            public void onPasswordEntered(String password) {
-            }
+    @Subscribe
+    public void onNameError(NameError nameError) {
+        Toast.makeText(getApplicationContext(),"Invalid username",Toast.LENGTH_SHORT).show();
+    }
 
-            @Override
-            public void onNameError() {
-            }
+    @Subscribe
+    public void onEmailError(EmailError emailError) {
+        Toast.makeText(getApplicationContext(),"Invalid email",Toast.LENGTH_SHORT).show();
+    }
 
-            @Override
-            public void onEmailError() {
-            }
-
-            @Override
-            public void onPasswordError() {
-            }
-        });
+    @Subscribe
+    public void onPasswordError(PasswordError passwordError) {
+        Toast.makeText(getApplicationContext(),"Invalid password",Toast.LENGTH_SHORT).show();
+    }
         
   ```
 #Regular Expressions Used for Validations
