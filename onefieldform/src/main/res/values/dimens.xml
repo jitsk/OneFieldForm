@@ -2,6 +2,10 @@
     <dimen name="input_field_default_length">140dp</dimen>
     <dimen name="radius">40dp</dimen>
     <dimen name="stroke">2dip</dimen>
+    <dimen name="innercircle_stroke">1dip</dimen>
+    <dimen name="outercircle_stroke">0.5dip</dimen>
     <dimen name="stroke_zero">0dip</dimen>
     <dimen name="stroke_one">1dip</dimen>
+    <dimen name="circle_one_width">84dp</dimen>
+    <dimen name="circle_one_height">80dp</dimen>
 </resources>

@@ -5,7 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -58,10 +60,14 @@ public class FormBox extends FrameLayout {
     private TextView textViewPass;
     private TextView welcomeTextView;
     private View signupView;
+
     private int backGroundColor;
     private int borderColor;
     private int textColor;
-
+    private int outerCircleBorderColor;
+    private int outerCircleBackgroundColor;
+    private int innerCircleBorderColor;
+    private int innerCircleBackgroundColor;
 
     public FormBox(Context context) {
         super(context);
@@ -75,40 +81,58 @@ public class FormBox extends FrameLayout {
         init();
     }
 
-    public FormBox(Context context, int backGroundColor, int borderColor, int textColor) {
+    public FormBox(Context context,
+                   int backGroundColor,
+                   int borderColor,
+                   int textColor,
+                   int outerCircleBorderColor,
+                   int outerCircleBackgroundColor,
+                   int innerCircleBorderColor,
+                   int innerCircleBackgroundColor) {
         super(context);
         this.backGroundColor = backGroundColor; this.borderColor = borderColor; this.textColor = textColor;
+        this.outerCircleBorderColor = outerCircleBorderColor;
+        this.outerCircleBackgroundColor = outerCircleBackgroundColor;
+        this.innerCircleBorderColor = innerCircleBorderColor;
+        this.innerCircleBackgroundColor = innerCircleBackgroundColor;
         init();
     }
 
     private void initAttributes(Context context, AttributeSet attrs) {
-        if(attrs == null) {
-            initDefault();
-            return;
-        }
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FormField);
-        final int N = a.getIndexCount();
-        if(N == 0) {
-            initDefault();
-            return;
-        }
-        for (int i = 0; i < N; ++i) {
-            int attr = a.getIndex(i);
-            if (attr == R.styleable.FormField_backgroundColor) {
-                backGroundColor = a.getColor(attr, ResourcesCompat.getColor(getResources(), R.color.color_black, null));
-            } else if (attr == R.styleable.FormField_borderColor) {
-                borderColor = a.getColor(attr, ResourcesCompat.getColor(getResources(), R.color.color_clouds, null));
-            } else if (attr == R.styleable.FormField_textColor) {
-                textColor = a.getColor(attr, ResourcesCompat.getColor(getResources(), R.color.color_clouds, null));
+        initDefault();
+        if(attrs != null) {
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FormField);
+            final int N = a.getIndexCount();
+            for (int i = 0; i < N; ++i) {
+                int attr = a.getIndex(i);
+                if (attr == R.styleable.FormField_backgroundColor) {
+                    backGroundColor = a.getColor(attr, ResourcesCompat.getColor(getResources(), R.color.color_black, null));
+                } else if (attr == R.styleable.FormField_borderColor) {
+                    borderColor = a.getColor(attr, ResourcesCompat.getColor(getResources(), R.color.color_clouds, null));
+                } else if (attr == R.styleable.FormField_textColor) {
+                    textColor = a.getColor(attr, ResourcesCompat.getColor(getResources(), R.color.color_clouds, null));
+                } else if (attr == R.styleable.FormField_innerCircleBorderColor) {
+                    innerCircleBorderColor = a.getColor(attr, ResourcesCompat.getColor(getResources(), R.color.color_clouds, null));
+                } else if (attr == R.styleable.FormField_innerCircleBackgroundColor) {
+                    innerCircleBackgroundColor = a.getColor(attr, ResourcesCompat.getColor(getResources(), R.color.color_clouds, null));
+                } else if (attr == R.styleable.FormField_outerCircleBorderColor) {
+                    outerCircleBorderColor = a.getColor(attr, ResourcesCompat.getColor(getResources(), R.color.color_clouds, null));
+                } else if (attr == R.styleable.FormField_outerCircleBackgroundColor) {
+                    outerCircleBackgroundColor = a.getColor(attr, ResourcesCompat.getColor(getResources(), R.color.color_clouds, null));
+                }
             }
+            a.recycle();
         }
-        a.recycle();
     }
 
     private void initDefault() {
         backGroundColor = ResourcesCompat.getColor(getResources(), R.color.color_black, null);
         borderColor = ResourcesCompat.getColor(getResources(), R.color.color_clouds, null);
         textColor = ResourcesCompat.getColor(getResources(), R.color.color_clouds, null);
+        outerCircleBorderColor = ResourcesCompat.getColor(getResources(), R.color.color_clouds, null);
+        outerCircleBackgroundColor = ResourcesCompat.getColor(getResources(), R.color.color_black, null);
+        innerCircleBorderColor = ResourcesCompat.getColor(getResources(), R.color.color_clouds, null);
+        innerCircleBackgroundColor = ResourcesCompat.getColor(getResources(), R.color.color_black, null);
     }
 
     private void createAndSetDrawable(int stroke) {
@@ -145,6 +169,7 @@ public class FormBox extends FrameLayout {
         nextButton = this.findViewById(R.id.name_next);
         nameEditText = (EditText)this.findViewById(R.id.editText_name);
         nameEditText.setTextColor(textColor);
+        createOuterCirclesName();
         addTextWatcher(nameEditText);
         nextButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -187,6 +212,7 @@ public class FormBox extends FrameLayout {
         textViewMail = (TextView) frameLayout.findViewById(R.id.mail_text);
         textViewMail.setTextColor(textColor);
         emailEditText.setTextColor(textColor);
+        createOuterCirclesEmail();
         addTextWatcher(emailEditText);
         nextButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -421,19 +447,27 @@ public class FormBox extends FrameLayout {
         circleImage.animate().
                 translationXBy(width + 185).
                 setDuration(300).
-                setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-            }
-
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-            }
-        }).
                 start();
     }
 
 
+    private void createOuterCirclesName() {
+        LayerDrawable layerDrawable = (LayerDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.layoutbackground, null);
+        GradientDrawable frontCircle = (GradientDrawable)layerDrawable.getDrawable(0);
+        GradientDrawable backCircle = (GradientDrawable)layerDrawable.getDrawable(1);
+        frontCircle.setStroke((int) getResources().getDimension(R.dimen.outercircle_stroke), outerCircleBorderColor);
+        backCircle.setStroke((int) getResources().getDimension(R.dimen.innercircle_stroke), innerCircleBorderColor);
+        frontCircle.setColor(outerCircleBackgroundColor);
+        backCircle.setColor(innerCircleBackgroundColor);
+        Drawable[] drawables = {frontCircle,backCircle};
+        LayerDrawable newLayerDrawable = new LayerDrawable(drawables);
+        findViewById(R.id.frameLayout_name).setBackground(newLayerDrawable);
+    }
+
+    private void createOuterCirclesEmail() {
+        GradientDrawable drawable = (GradientDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.layoutbackground_email, null);
+        drawable.setStroke((int) getResources().getDimension(R.dimen.innercircle_stroke), innerCircleBorderColor);
+        drawable.setColor(innerCircleBackgroundColor);
+        findViewById(R.id.frameLayout_email).setBackground(drawable);
+    }
 }
