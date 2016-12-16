@@ -18,7 +18,7 @@ dependencies {
 
 ```
 
-#Via xml
+###Via xml
 
 Use this in top level layout
 ```
@@ -43,7 +43,7 @@ Use like this in xml file
 ```
 Note: Use 80dp height for better appearence. UI may get distorted at higher heights.
 
-#Via Code
+###Via Code
 ```
 FormBox formbox = new public FormBox(Context context,
                    int backGroundColor,
@@ -54,7 +54,7 @@ FormBox formbox = new public FormBox(Context context,
                    int innerCircleBorderColor,
                    int innerCircleBackgroundColor);
 ```
-#Listening to events
+##Listening to events
 
 Uses eventbus to listen to events. Refer to <a href="https://github.com/greenrobot/EventBus">EventBus</a> for more.
 
@@ -94,7 +94,7 @@ In your activity, use
     }
         
   ```
-#Regular Expressions Used for Validations
+##Regular Expressions Used for Validations
 ```
     USERNAME_PATTERN = "^[a-zA-Z0-9_-]{3,100}$"
     PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,100})"
@@ -102,17 +102,17 @@ In your activity, use
 
 ```
 
-#Limitations
+##Notes
 1. Input is limited to 24 characters.
 
 
-#Known Bugs
+##Known Bugs
 1. Thickness of border increases during animation.
 
-#Developed By
+##Developed By
 Jithin Sebastian
 
-#License
+##License
 ```
 Copyright [2016] [Jithin Sebastian]
 
