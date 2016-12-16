@@ -1,10 +1,10 @@
-# OneFieldForm
+#OneFieldForm
 This is One field form for android. Can be used to sign up the user using name, email and password.
 Min API Level:16
 
 ##Including in project
 
-#In build.gradle
+###In build.gradle
 ```
 repositories {
     mavenCentral()
