@@ -103,8 +103,7 @@ In your activity, use
 ```
 
 #Limitations
-1. Currently color of inner circle cannot be changed in name and email fields.
-2. Input is limited to 24 characters.
+1. Input is limited to 24 characters.
 
 
 #Known Bugs
