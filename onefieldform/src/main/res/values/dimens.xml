@@ -8,4 +8,5 @@
     <dimen name="stroke_one">1dip</dimen>
     <dimen name="circle_one_width">84dp</dimen>
     <dimen name="circle_one_height">80dp</dimen>
+
 </resources>

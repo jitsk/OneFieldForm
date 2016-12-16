@@ -163,6 +163,7 @@ public class FormBox extends FrameLayout {
         nameInput = inflate(getContext(),R.layout.nameitem,null);
         setAndAddView(nameInput);
         CircleImageView circleImage = (CircleImageView) this.findViewById(R.id.circle_image_name);
+        circleImage.setBorderColor(borderColor);
         circleImage.setVisibility(View.INVISIBLE);
         textViewName = (TextView) this.findViewById(R.id.name_text);
         textViewName.setTextColor(textColor);
@@ -207,6 +208,8 @@ public class FormBox extends FrameLayout {
         final FrameLayout frameLayout = this;
         emailInput = inflate(getContext(),R.layout.emailitem,null);
         setAndAddView(emailInput);
+        CircleImageView circleImage = (CircleImageView) this.findViewById(R.id.circle_image_email);
+        circleImage.setBorderColor(borderColor);
         nextButton = frameLayout.findViewById(R.id.email_next);
         emailEditText = (EditText)frameLayout.findViewById(R.id.editText_email);
         textViewMail = (TextView) frameLayout.findViewById(R.id.mail_text);
@@ -262,6 +265,8 @@ public class FormBox extends FrameLayout {
     private void initPasswordItem() {
         passwordInput = inflate(getContext(),R.layout.passworditem,null);
         setAndAddView(passwordInput);
+        CircleImageView circleImage = (CircleImageView) this.findViewById(R.id.circle_image_password);
+        circleImage.setBorderColor(borderColor);
         textViewPass = (TextView) this.findViewById(R.id.password_text);
         nextButton = this.findViewById(R.id.password_next);
         passwordEditText = (EditText)this.findViewById(R.id.editText_password);
