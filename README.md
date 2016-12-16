@@ -1,6 +1,6 @@
 # OneFieldForm
 This is One field form for android. Can be used to sign up the user using name, email and password.
-Min API:16
+Min API Level:16
 
 #Including in project
 
@@ -20,12 +20,12 @@ dependencies {
 
 #Via xml
 
-Use this
+Use this in top level layout
 ```
 xmlns:formbox="http://schemas.android.com/apk/res-auto"
 ```
 
-Use this in xml file
+Use like this in xml file
 ```
 <com.android.onefieldform.FormBox
                 android:id="@+id/formbox"
@@ -58,7 +58,7 @@ FormBox formbox = new public FormBox(Context context,
 
 Uses eventbus to listen to events. Refer to <a href="https://github.com/greenrobot/EventBus">EventBus</a> for more.
 
-In main activity,
+In your activity, use
 ```
     @Subscribe
     public void onNameReceived(NameReceived nameReceived) {
