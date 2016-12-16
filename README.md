@@ -1,5 +1,7 @@
 # OneFieldForm
 This is One field form for android. Can be used to sign up the user using name, email and password.
+Min API:16
+
 #Including in project
 
 #In build.gradle
@@ -9,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.jitsk:onefieldform:0.0.2'
+    compile 'com.github.jitsk:onefieldform:0.0.3'
     compile 'org.greenrobot:eventbus:3.0.0'
 }
 
@@ -18,22 +20,39 @@ dependencies {
 
 #Via xml
 
+Use this
+```
+xmlns:formbox="http://schemas.android.com/apk/res-auto"
+```
+
 Use this in xml file
 ```
 <com.android.onefieldform.FormBox
                 android:id="@+id/formbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundColor="@android:color/black"
-                android:borderColor="@android:color/white"
-                android:textColor="@android:color/white"
+                formbox:backgroundColor="@android:color/black"
+                formbox:borderColor="@android:color/white"
+                formbox:textColor="@android:color/white"
+                formbox:outerCircleBorderColor="@android:color/white"
+                formbox:outerCircleBackgroundColor="@android:color/black"
+                formbox:innerCircleBorderColor="@android:color/white"
+                formbox:innerCircleBackgroundColor="@android:color/black"
                 android:minHeight="80dp"
                 android:minWidth="250dp" />
 ```
+Note: Use 80dp height for better appearence. UI may get distorted at higher heights.
 
 #Via Code
 ```
-FormBox formbox = new FormBox(Context context, int backGroundColor, int borderColor, int textColor);
+FormBox formbox = new public FormBox(Context context,
+                   int backGroundColor,
+                   int borderColor,
+                   int textColor,
+                   int outerCircleBorderColor,
+                   int outerCircleBackgroundColor,
+                   int innerCircleBorderColor,
+                   int innerCircleBackgroundColor);
 ```
 #Listening to events
 
