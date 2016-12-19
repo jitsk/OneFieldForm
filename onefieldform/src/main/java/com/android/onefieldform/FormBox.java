@@ -175,6 +175,7 @@ public class FormBox extends FrameLayout {
         nextButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                nextButton.setEnabled(false);
                 scaleButtonView(nextButton);
                 postDelayed(new Runnable()
                 {
@@ -183,6 +184,7 @@ public class FormBox extends FrameLayout {
                         if(validateName()) {
                             EventBus.getDefault().post(new NameReceived(nameEditText.getText().toString()));
                         } else {
+                            nextButton.setEnabled(true);
                             EventBus.getDefault().post(new NameError());
                             shakeAnime();
                         }
@@ -220,6 +222,7 @@ public class FormBox extends FrameLayout {
         nextButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                nextButton.setEnabled(false);
                 scaleButtonView(nextButton);
                 postDelayed(new Runnable()
                 {
@@ -228,6 +231,7 @@ public class FormBox extends FrameLayout {
                         if(validateMail()) {
                             EventBus.getDefault().post(new EmailReceived(emailEditText.getText().toString()));
                         } else {
+                            nextButton.setEnabled(true);
                             EventBus.getDefault().post(new EmailError());
                             shakeAnime();
                         }
@@ -277,6 +281,7 @@ public class FormBox extends FrameLayout {
         nextButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                nextButton.setEnabled(false);
                 scaleButtonView(nextButton);
                 postDelayed(new Runnable()
                 {
@@ -285,6 +290,7 @@ public class FormBox extends FrameLayout {
                         if(validatePassword()) {
                             EventBus.getDefault().post(new PasswordReceived(passwordEditText.getText().toString()));
                         } else {
+                            nextButton.setEnabled(true);
                             EventBus.getDefault().post(new PasswordError());
                             shakeAnime();
                         }
