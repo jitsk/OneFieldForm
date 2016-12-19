@@ -107,7 +107,7 @@ In your activity, use
 
 
 ##Known Bugs
-1. Thickness of border increases during animation.
+1. ~~Thickness of border increases during animation.~~
 
 ##Developed By
 Jithin Sebastian
