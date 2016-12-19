@@ -1,10 +1,19 @@
 #OneFieldForm
-This is One field form for android. Can be used to sign up the user using name, email and password.
+
+Single field form can be used to sign up the user. 
+
+###Why this
+* Takes less space on the screen. 
+* Username, password, email address can be collected through a single form field. 
+* Provides options to control the flow, ie, interrupt the flow when something goes wrong, for example, a duplicate user.
+* Allows to change color combinations of each part to make it attractive.
+
 Min API Level:16
 
 ##Including in project
 
 ###In build.gradle
+
 ```
 repositories {
     mavenCentral()
@@ -13,11 +22,9 @@ repositories {
 dependencies {
     compile 'com.github.jitsk:onefieldform:0.0.4'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'de.hdodenhof:circleimageview:2.1.0'
 }
 
 ```
-Note: If face any issue, download aar from <a href="https://oss.sonatype.org/service/local/repositories/releases/content/com/github/jitsk/onefieldform/0.0.4/onefieldform-0.0.4.aar">here</a>  and <a href="http://stackoverflow.com/questions/24506648/adding-local-aar-files-to-gradle-build-using-flatdirs-is-not-working">add as module.</a>
 
 ###Via xml
 
@@ -112,6 +119,11 @@ In your activity, use
 
 ##Developed By
 Jithin Sebastian
+
+##Depends on the work by,
+
+* [EventBus](https://github.com/greenrobot/EventBus)
+* [CircleImageView](https://github.com/hdodenhof/CircleImageView)
 
 ##License
 ```
