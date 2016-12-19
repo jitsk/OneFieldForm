@@ -16,7 +16,7 @@ dependencies {
 }
 
 ```
-Note: If face any issue, download aar from <a href="https://oss.sonatype.org/service/local/repositories/releases/content/com/github/jitsk/onefieldform/0.0.4/onefieldform-0.0.4.aar">here and add as module dependecy.</a>
+Note: If face any issue, download aar from <a href="https://oss.sonatype.org/service/local/repositories/releases/content/com/github/jitsk/onefieldform/0.0.4/onefieldform-0.0.4.aar">here</a>  and add as module dependecy.
 
 ###Via xml
 
