@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.jitsk:onefieldform:0.0.3'
+    compile 'com.github.jitsk:onefieldform:0.0.4'
     compile 'org.greenrobot:eventbus:3.0.0'
 }
 
