@@ -13,6 +13,7 @@ repositories {
 dependencies {
     compile 'com.github.jitsk:onefieldform:0.0.4'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }
 
 ```
