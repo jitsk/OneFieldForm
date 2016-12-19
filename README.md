@@ -120,7 +120,7 @@ In your activity, use
 ##Developed By
 Jithin Sebastian
 
-##Depends on the work by,
+##Depends on the work by
 
 * [EventBus](https://github.com/greenrobot/EventBus)
 * [CircleImageView](https://github.com/hdodenhof/CircleImageView)
