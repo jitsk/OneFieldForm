@@ -16,7 +16,7 @@ dependencies {
 }
 
 ```
-Note: If face any issue, download aar from <a href="https://oss.sonatype.org/service/local/repositories/releases/content/com/github/jitsk/onefieldform/0.0.4/onefieldform-0.0.4.aar">here</a>  and add as module dependecy.
+Note: If face any issue, download aar from <a href="https://oss.sonatype.org/service/local/repositories/releases/content/com/github/jitsk/onefieldform/0.0.4/onefieldform-0.0.4.aar">here</a>  and <a href="http://stackoverflow.com/questions/24506648/adding-local-aar-files-to-gradle-build-using-flatdirs-is-not-working">add as module.</a>
 
 ###Via xml
 
