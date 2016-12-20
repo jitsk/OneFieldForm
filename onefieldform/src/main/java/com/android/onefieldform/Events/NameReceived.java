@@ -1,11 +1,13 @@
 package com.android.onefieldform.Events;
 
 /**
- * Created by jithin on 15/12/16.
+ * Used to propagate name received
+ * @author jithin
+ * @version 1.0
  */
 
 public class NameReceived {
-    private String name;
+    private final String name;
 
     public NameReceived(String name) {
         this.name = name;
@@ -15,7 +17,4 @@ public class NameReceived {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 }

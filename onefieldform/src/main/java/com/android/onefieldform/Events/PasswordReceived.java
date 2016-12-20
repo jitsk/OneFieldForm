@@ -1,11 +1,13 @@
 package com.android.onefieldform.Events;
 
 /**
- * Created by jithin on 15/12/16.
+ * Used to propagate password received event
+ * @author jithin
+ * @version 1.0
  */
 
 public class PasswordReceived {
-    private String password;
+    private final String password;
 
     public PasswordReceived(String password) {
         this.password = password;
@@ -15,7 +17,4 @@ public class PasswordReceived {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

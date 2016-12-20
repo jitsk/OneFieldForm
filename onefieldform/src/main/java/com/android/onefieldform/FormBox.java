@@ -50,7 +50,6 @@ public class FormBox extends FrameLayout {
     private EditText passwordEditText;
 
     private View nextButton;
-    private Button signupButton;
     private View nameInput;
     private View emailInput;
     private View passwordInput;
@@ -58,7 +57,6 @@ public class FormBox extends FrameLayout {
     private TextView textViewName;
     private TextView textViewMail;
     private TextView textViewPass;
-    private TextView welcomeTextView;
     private View signupView;
 
     private int backGroundColor;
@@ -148,7 +146,7 @@ public class FormBox extends FrameLayout {
         createAndSetDrawable((int) getResources().getDimension(R.dimen.stroke));
         signupView = inflate(getContext(),R.layout.signup,null);
         setAndAddView(signupView);
-        signupButton = (Button) signupView.findViewById(R.id.sign_up);
+        Button signupButton = (Button) signupView.findViewById(R.id.sign_up);
         signupButton.setTextColor(textColor);
         signupButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -333,7 +331,7 @@ public class FormBox extends FrameLayout {
         textViewPass.setVisibility(View.INVISIBLE);
         passwordEditText.setVisibility(View.INVISIBLE);
         welcome.setVisibility(View.INVISIBLE);
-        welcomeTextView = (TextView) this.findViewById(R.id.welcome_text);
+        TextView welcomeTextView = (TextView) this.findViewById(R.id.welcome_text);
         welcomeTextView.setTextColor(textColor);
         nextButton.setVisibility(View.INVISIBLE);
         transAnime(R.id.circle_image_password, passwordEditText.getWidth());
@@ -464,8 +462,8 @@ public class FormBox extends FrameLayout {
 
     private void createOuterCirclesName() {
         LayerDrawable layerDrawable = (LayerDrawable) ResourcesCompat.getDrawable(getResources(), R.drawable.layoutbackground, null);
-        GradientDrawable frontCircle = (GradientDrawable)layerDrawable.getDrawable(0);
-        GradientDrawable backCircle = (GradientDrawable)layerDrawable.getDrawable(1);
+        GradientDrawable frontCircle = (GradientDrawable) layerDrawable.getDrawable(0);
+        GradientDrawable backCircle = (GradientDrawable) layerDrawable.getDrawable(1);
         frontCircle.setStroke((int) getResources().getDimension(R.dimen.outercircle_stroke), outerCircleBorderColor);
         backCircle.setStroke((int) getResources().getDimension(R.dimen.innercircle_stroke), innerCircleBorderColor);
         frontCircle.setColor(outerCircleBackgroundColor);

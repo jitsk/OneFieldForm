@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="FormField">
-        <attr name="backgroundColor" format="color"></attr>
-        <attr name="borderColor" format="color"></attr>
-        <attr name="textColor" format="color"></attr>
-        <attr name="outerCircleBorderColor" format="color"></attr>
-        <attr name="outerCircleBackgroundColor" format="color"></attr>
-        <attr name="innerCircleBorderColor" format="color"></attr>
-        <attr name="innerCircleBackgroundColor" format="color"></attr>
+        <attr name="backgroundColor" format="color" />
+        <attr name="borderColor" format="color" />
+        <attr name="textColor" format="color" />
+        <attr name="outerCircleBorderColor" format="color" />
+        <attr name="outerCircleBackgroundColor" format="color" />
+        <attr name="innerCircleBorderColor" format="color" />
+        <attr name="innerCircleBackgroundColor" format="color" />
     </declare-styleable>
 </resources>

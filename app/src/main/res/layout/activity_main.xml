@@ -15,7 +15,6 @@
         android:paddingTop="@dimen/activity_vertical_margin">
 
         <FrameLayout
-            android:id="@+id/basic_button"
             android:background="@android:color/black"
             android:layout_width="match_parent"
             android:layout_height="230dp"

@@ -1,7 +1,9 @@
 package com.android.onefieldform.Events;
 
 /**
- * Created by jithin on 15/12/16.
+ * Used to propagate email error
+ * @author jithin
+ * @version 1.0
  */
 
 public class EmailError {

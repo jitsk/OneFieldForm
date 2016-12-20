@@ -1,11 +1,13 @@
 package com.android.onefieldform.Events;
 
 /**
- * Created by jithin on 15/12/16.
+ * Used to propagate email received event
+ * @author jithin
+ * @version 1.0
  */
 
 public class EmailReceived {
-    private String email;
+    private final String email;
 
     public EmailReceived(String email) {
         this.email = email;
@@ -15,7 +17,4 @@ public class EmailReceived {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
